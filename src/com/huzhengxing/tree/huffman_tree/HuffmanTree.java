@@ -1,6 +1,9 @@
 package com.huzhengxing.tree.huffman_tree;
 
-import com.huzhengxing.array.Array;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @Auther: Albert
@@ -11,6 +14,11 @@ import com.huzhengxing.array.Array;
 public class HuffmanTree {
 
     public Node root;
+
+
+    public HuffmanTree() {
+
+    }
 
 
     public HuffmanTree(Node root) {
@@ -28,9 +36,16 @@ public class HuffmanTree {
      * @param arrays
      */
     public void toHuffmanTree(int[] arrays) {
-        //数组从小到大排序成二叉树
-        Node[] nodes = orderArrayToTree(arrays);
+        List<Node> nodes = toNodeArray(arrays);
         this.root = toHuffmanTree(nodes);
+    }
+
+    private List<Node> toNodeArray(int[] arrays) {
+        List<Node> nodes = new ArrayList<>();
+        for (int i = 0; i < arrays.length; i++) {
+            nodes.add(new Node(arrays[i]));
+        }
+        return nodes;
     }
 
     /**
@@ -39,18 +54,24 @@ public class HuffmanTree {
      * @param nodes
      * @return
      */
-    public Node toHuffmanTree(Node[] nodes) {
-        //获取最小2元素及之和组合成二叉树
-        Node newNode;
-        if (nodes.length == 0) return null;
-        if (nodes.length > 1) {
-            newNode = plusNode(nodes[0], nodes[1]);
-            //最小元素之和添加到数组中重新排序
-            Node[] newNodes = orderNodes(nodes, newNode);
-            return toHuffmanTree(newNodes);
-        } else {
-            return nodes[0];
+    public Node toHuffmanTree(List<Node> nodes) {
+
+        if (nodes.size() == 0) {
+            return null;
         }
+
+        while (nodes.size() > 1) {
+            nodes.sort(Comparator.comparingInt(n->n.value));
+            Node node = new Node((nodes.get(0).value + nodes.get(1).value));
+            node.left = nodes.get(0);
+            node.right = nodes.get(1);
+            nodes.add(node);
+            nodes.remove(nodes.get(0));
+            nodes.remove(nodes.get(1));
+
+
+        }
+        return nodes.get(0);
     }
 
     /**
@@ -61,22 +82,27 @@ public class HuffmanTree {
      * @return
      */
     private Node[] orderNodes(Node[] nodes, Node newNode) {
-        Node[] newNodes = new Node[nodes.length - 1];
-        //标记插入元素的位置
-        boolean flag = false;
-        for (int i = 0; i < newNodes.length; i++) {
-            if (!flag) {
-                if (newNode.value < nodes[i+2].value) {
-                    newNodes[i] = newNode;
-                    flag = true;
+        if (nodes.length == 2) {
+            return new Node[]{newNode};
+        } else {
+            Node[] newNodes = new Node[nodes.length - 1];
+            //标记插入元素的位置
+            boolean flag = false;
+            for (int i = 0; i < newNodes.length - 2; i++) {
+                if (!flag) {
+                    if (newNode.value < nodes[i + 2].value) {
+                        newNodes[i] = newNode;
+                        flag = true;
+                    } else {
+                        newNodes[i] = nodes[i + 2];
+                    }
                 } else {
-                    newNodes[i] = nodes[i + 2];
+                    newNodes[i] = nodes[i + 1];
                 }
-            } else {
-                newNodes[i] = nodes[i + 1];
             }
+            return newNodes;
         }
-        return newNodes;
+
     }
 
     /**
@@ -93,26 +119,28 @@ public class HuffmanTree {
     /**
      * 数据排序
      *
-     * @param arrays
+     * @param
      */
-    private Node[] orderArrayToTree(int[] arrays) {
-        Node[] nodes = new Node[arrays.length];
-        for (int i = 0; i < arrays.length; i++) {
-            for (int j = i + 1; j < arrays.length; j++) {
-                if (arrays[i] > arrays[j]) {
-                    int tmp = arrays[i];
-                    arrays[i] = arrays[j];
-                    arrays[j] = tmp;
-                }
-            }
-            nodes[i] = new Node(arrays[i]);
-        }
-        return nodes;
-    }
+//    private void orderNodeArray(List nodes) {
+//        for (int i = 0; i < nodes.length; i++) {
+//            for (int j = i + 1; j < nodes.length; j++) {
+//                if (nodes[i].value > nodes[j].value) {
+//                    int tmp = nodes[i].value;
+//                    nodes[i].value = nodes[j].value;
+//                    nodes[j].value = tmp;
+//                }
+//            }
+//        }
+//    }
 
 
     public static void main(String[] args) {
-        HuffmanTree huffmanTree = new HuffmanTree(new int[]{1, 2, 3, 4, 5, 6});
-        System.out.println(huffmanTree.root);
+        int[] arrays = {2, 4, 3, 8, 1, 6};
+        HuffmanTree huffmanTree = new HuffmanTree(arrays);
+//        System.out.println(huffmanTree.root);
+
+//        Node[] nodes = huffmanTree.toNodeArray(arrays);
+//        huffmanTree.orderNodeArray(nodes);
+        System.out.println(huffmanTree);
     }
 }
