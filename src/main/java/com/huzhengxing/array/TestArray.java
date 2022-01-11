@@ -24,7 +24,7 @@ public class TestArray {
         myArray.show();
         System.out.println(myArray.get(4));
         System.out.println(myArray.indexOf(2));
-
+        System.out.println("12341234213");
 
     }
 }
