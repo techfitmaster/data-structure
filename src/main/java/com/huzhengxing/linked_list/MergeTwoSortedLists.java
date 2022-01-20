@@ -1,7 +1,7 @@
 /*
  * @Author: zhengxing.hu
  * @Date: 2022-01-19 18:54:24
- * @LastEditTime: 2022-01-20 00:46:40
+ * @LastEditTime: 2022-01-20 11:33:57
  * @Description: https://leetcode.com/problems/merge-two-sorted-lists/
 You are given the heads of two sorted linked lists list1 and list2.
 Merge the two lists in a one sorted list. The list should be made by splicing together the nodes of the first two lists.
@@ -117,12 +117,12 @@ public class MergeTwoSortedLists {
 		ListNode listB3 = new ListNode(3);
 		ListNode listB4 = new ListNode(4);
 		MergeTwoSortedLists merge = new MergeTwoSortedLists();
-		// ListNode listA = listA1;
-		// listA1.next = listA2;
-		// listA2.next = listA4;
-		// ListNode listB = listB1;
-		// listB1.next = listB3;
-		// listB3.next = listB4;
+		ListNode listA = listA1;
+		listA1.next = listA2;
+		listA2.next = listA4;
+		ListNode listB = listB1;
+		listB1.next = listB3;
+		listB3.next = listB4;
 		ListNode result = merge.mergeTwoLists3(listA1, listA2);
 		System.out.println(result);
 		// ListNode listA1 = new ListNode(1);

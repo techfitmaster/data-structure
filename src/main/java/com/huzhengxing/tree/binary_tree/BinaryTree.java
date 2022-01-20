@@ -99,7 +99,7 @@ public class BinaryTree {
         if (currentNode == null) {
             return;
         }
-        //处理左节点
+        // 处理左节点
         inClue(currentNode.getLeftNode());
         if (currentNode.getLeftNode() == null) {
             currentNode.setLeftNode(this.preNode);
@@ -112,7 +112,7 @@ public class BinaryTree {
             }
         }
         preNode = currentNode;
-        //处理右节点
+        // 处理右节点
         inClue(currentNode.getRightNode());
     }
 
@@ -121,12 +121,12 @@ public class BinaryTree {
      */
     public void clueIterator() {
 
-        //线索化二叉树
+        // 线索化二叉树
         inClue();
         TreeNode currentNode = root;
         while (currentNode != null) {
-            //找到最左侧节点
-            while (currentNode.getLeftFlag() == 0 ) {
+            // 找到最左侧节点
+            while (currentNode.getLeftFlag() == 0) {
                 currentNode = currentNode.getLeftNode();
             }
             System.out.println(currentNode.getValue());
@@ -137,8 +137,6 @@ public class BinaryTree {
             currentNode = currentNode.getRightNode();
         }
 
-
-
     }
 
     private TreeNode findLastLeftNode(TreeNode root) {
@@ -148,7 +146,6 @@ public class BinaryTree {
             return findLastLeftNode(root.getLeftNode());
         }
     }
-
 
     public TreeNode preSearch(TreeNode root, int i) {
         TreeNode target = null;
@@ -197,9 +194,7 @@ public class BinaryTree {
             }
         }
 
-
     }
-
 
     public static void main(String[] args) {
 
@@ -211,19 +206,83 @@ public class BinaryTree {
         treeNode.setRightNode(rightNode);
         BinaryTree binaryTree = new BinaryTree(treeNode);
 
-//        binaryTree.preOrder(treeNode);
+        // binaryTree.preOrder(treeNode);
 
-//        System.out.println(binaryTree.preSearch(7).getValue());
-//        binaryTree.delete(4);
-//        binaryTree.preOrder(treeNode);
-//        System.out.println();
+        // System.out.println(binaryTree.preSearch(7).getValue());
+        // binaryTree.delete(4);
+        // binaryTree.preOrder(treeNode);
+        // System.out.println();
 
-//        binaryTree.inClue();
-//        System.out.println();
-//
+        // binaryTree.inClue();
+        // System.out.println();
+        //
         binaryTree.clueIterator();
 
     }
 
+}
 
+class TreeNode {
+
+    private int value;
+
+    private TreeNode leftNode;
+
+    private TreeNode rightNode;
+
+    /**
+     * 标记左右指针的类型区分是子节点或前驱节点/后级节点，默认0，代表子节点的位置
+     */
+    private int leftFlag;
+    private int rightFlag;
+
+    public TreeNode(int value) {
+        this.value = value;
+    }
+
+    public TreeNode(int value, TreeNode leftNode, TreeNode rightNode) {
+        this.value = value;
+        this.leftNode = leftNode;
+        this.rightNode = rightNode;
+    }
+
+    public int getLeftFlag() {
+        return leftFlag;
+    }
+
+    public void setLeftFlag(int leftFlag) {
+        this.leftFlag = leftFlag;
+    }
+
+    public int getRightFlag() {
+        return rightFlag;
+    }
+
+    public void setRightFlag(int rightFlag) {
+        this.rightFlag = rightFlag;
+    }
+
+    public TreeNode getLeftNode() {
+        return leftNode;
+    }
+
+    public void setLeftNode(TreeNode leftNode) {
+        this.leftNode = leftNode;
+    }
+
+    public TreeNode getRightNode() {
+        return rightNode;
+    }
+
+    public void setRightNode(TreeNode rightNode) {
+        this.rightNode = rightNode;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
 }
